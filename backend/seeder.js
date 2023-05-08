@@ -1,0 +1,53 @@
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import colors from "colors";
+import users from "./data/users.js";
+import products from "./data/products.js";
+import User from "./models/userModel.js";
+import Product from "./models/productModel.js";
+import Order from "./models/orderModel.js";
+import connectDB from "./config/db.js";
+
+dotenv.config();
+
+connectDB(); //connect to database
+
+const importData = async () => {
+  try {
+    //clear all data from database
+    await Order.deleteMany();
+    await Product.deleteMany();
+    await User.deleteMany();
+
+    //create users
+    const createdUsers = await User.insertMany(users);
+    //get admin user
+    const adminUser = createdUsers[0]._id;
+    //take proudcts from the products file and add the admin user to each product
+    const sampleProducts = products.map((product) => {
+      return { ...product, user: adminUser };
+    });
+    //insert the sample products into the database
+    await Product.insertMany(sampleProducts);
+    console.log("Data Imported!".green.inverse);
+    process.exit();
+  } catch (error) {
+    console.error(`Error: ${error.message}`.red.inverse);
+    process.exit(1);
+  }
+};
+
+const destroyData = async () => {
+  try {
+    //clear all data from database
+    await Order.deleteMany();
+    await Product.deleteMany();
+    await User.deleteMany();
+
+    console.log("Data Destroyed!".red.inverse);
+    process.exit();
+  } catch (error) {
+    console.error(`Error: ${error.message}`.red.inverse);
+    process.exit(1);
+  }
+};
