@@ -11,6 +11,7 @@ import {
 import { FaTrash } from "react-icons/fa";
 import Message from "../components/Message";
 import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../slices/cartSlice";
 
 const CartScreen = () => {
   const navigate = useNavigate();
@@ -19,6 +20,9 @@ const CartScreen = () => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
+  const addToCartHandler = async (product, qty) => {
+    dispatch(addToCart({ ...product, qty }));
+  };
   return (
     <Row>
       <Col md={8}>
@@ -45,7 +49,9 @@ const CartScreen = () => {
                     <Form.Control
                       as="select"
                       value={item.qty}
-                      onChange={(e) => {}}
+                      onChange={(e) =>
+                        addToCartHandler(item, Number(e.target.value))
+                      }
                     >
                       {[...Array(item.countInStock).keys()].map((num) => (
                         <option key={num + 1} value={num + 1}>
