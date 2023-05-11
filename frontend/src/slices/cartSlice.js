@@ -23,7 +23,15 @@ const cartSlice = createSlice({
       }
       return updateCart(state);
     },
+    removeFromCart: (state, action) => {
+      //id for the item is passed from the action payload
+      //filter out the item with the id that matches the id passed in the action payload
+      state.cartItems = state.cartItems.filter(
+        (item) => item._id !== action.payload
+      );
+      return updateCart(state);
+    },
   },
 });
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 export default cartSlice.reducer;
