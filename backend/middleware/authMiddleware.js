@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import asyncHandler from "./asyncHandler"; //import asyncHandler
+import asyncHandler from "./asyncHandler.js";
 import User from "../models/userModel.js";
 
 //have two routes, protected and admin
@@ -16,7 +16,7 @@ const protect = asyncHandler(async (req, res, next) => {
       //verify the token
       //an object that contains the user id field
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      //add user to the request object
+
       req.user = await User.findById(decoded.userId).select("-password");
       next();
     } catch (error) {
