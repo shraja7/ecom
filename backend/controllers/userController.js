@@ -76,7 +76,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.userId);
+  const user = await User.findById(req.user._id);
   //check to see if user exists
   if (user) {
     res.status(200).json({
