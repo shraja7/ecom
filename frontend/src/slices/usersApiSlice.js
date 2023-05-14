@@ -1,3 +1,4 @@
+//this slice is used to make API calls to the backend
 import { USERS_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
 
