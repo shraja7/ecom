@@ -36,7 +36,33 @@ const authUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  res.send("register user");
+  //get name email and password from req.body
+  const { name, email, password } = req.body;
+  //check if user exists
+  const userExists = await User.findOne({ email });
+  //if user exists throw error
+  if (userExists) {
+    res.status(400);
+    throw new Error("User already exists");
+  }
+  //if user does not exist create user
+  const user = await User.create({
+    name,
+    email,
+    password,
+  });
+  //if user is created successfully send back user data
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
 });
 
 //logout user
