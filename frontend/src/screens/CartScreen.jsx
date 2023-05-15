@@ -27,12 +27,13 @@ const CartScreen = () => {
   const removeFromCartHandler = async (id) => {
     dispatch(removeFromCart(id));
   };
+  //TODO: Add checkoutHandler logic to navigate to login screen if user is not logged in
+  //if user is logged in, navigate to shipping screen
 
   const checkoutHandler = () => {
-    //if user is not logged in, redirect to login page else redirect to shipping page
-
-    navigate("/login?redirect=/login");
+    navigate("/login?redirect=/shipping");
   };
+
   return (
     <Row>
       <Col md={8}>
