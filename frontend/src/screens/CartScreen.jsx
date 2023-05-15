@@ -29,7 +29,9 @@ const CartScreen = () => {
   };
 
   const checkoutHandler = () => {
-    navigate("/login?redirect=/shipping");
+    //if user is not logged in, redirect to login page else redirect to shipping page
+
+    navigate("/login?redirect=/login");
   };
   return (
     <Row>
